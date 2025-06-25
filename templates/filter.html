@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block title %}Filtrer par date{% endblock %}
+
+{% block content %}
+    <h1>Rechercher les commandes par date</h1>
+    <form method="POST">
+        <label for="date">Date :</label>
+        <input type="date" name="date" required>
+        <button type="submit">Rechercher</button>
+    </form>
+
+    {% if commandes %}
+        <h2>Résultats :</h2>
+        <ul>
+        {% for c in commandes %}
+            <li>{{ c.nom_client }} - {{ c.produit }} ({{ c.quantite }}) le {{ c.date_commande }}</li>
+        {% endfor %}
+        </ul>
+
+        <form method="POST" action="/download-pdf">
+        <input type="hidden" name="date" value="{{ request.form.date }}">
+        <button type="submit">📄 Télécharger en PDF</button>
+        </form>
+
+    {% else %}
+        <h1>pas de commande</h1>
+    {% endif %}
+{% endblock %}
